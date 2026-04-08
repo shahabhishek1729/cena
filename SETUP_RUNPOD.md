@@ -53,7 +53,7 @@ Copy the entire output (starts with `ssh-ed25519 ...`), then:
 | **Container Disk** | 20 GB (minimum) |
 | **Volume Disk** | 30 GB (stores model weights across restarts) |
 | **Volume Mount** | `/workspace` (default) |
-| **Expose HTTP Ports** | `5000` (add this!) |
+| **Expose HTTP Ports** | `8888` (add this!) |
 | **Expose TCP Ports** | `22` (SSH — usually on by default) |
 
 4. Click **Deploy**
@@ -70,9 +70,9 @@ Once the pod is running:
    ```
    ssh root@ssh.runpod.io -p 22177 -i ~/.ssh/id_ed25519
    ```
-5. Note the **HTTP port 5000 URL** — it looks like:
+5. Note the **HTTP port 8888 URL** — it looks like:
    ```
-   https://a1b2c3d4e5-5000.proxy.runpod.net
+   https://a1b2c3d4e5-8888.proxy.runpod.net
    ```
 
 ### Step 5: Deploy DiffusionGuard
@@ -130,8 +130,8 @@ You'll see:
 ```
 Loading runwayml/stable-diffusion-inpainting on cuda (torch.float16)...
 Model loaded successfully.
-Starting DiffusionGuard API server on :5000
- * Running on http://0.0.0.0:5000
+Starting DiffusionGuard + Fawkes API server on :8888
+ * Running on http://0.0.0.0:8888
 ```
 
 ### Step 7: Test from Your Laptop
@@ -141,7 +141,7 @@ Starting DiffusionGuard API server on :5000
 export RUNPOD_POD_ID=a1b2c3d4e5   # Replace with your actual pod ID
 
 # Health check
-curl https://${RUNPOD_POD_ID}-5000.proxy.runpod.net/health
+curl https://${RUNPOD_POD_ID}-8888.proxy.runpod.net/health
 
 # Protect an image
 python client/glaze.py \
@@ -153,7 +153,7 @@ python client/glaze.py \
 python client/glaze.py \
   --image test_images/face.png \
   --mask test_images/face_mask.png \
-  --server https://${RUNPOD_POD_ID}-5000.proxy.runpod.net
+  --server https://${RUNPOD_POD_ID}-8888.proxy.runpod.net
 ```
 
 ### Step 8: Update backends.json (Optional)
@@ -164,7 +164,7 @@ Edit `backends.json` and fill in your pod ID:
 
 ```json
 "runpod": {
-    "url": "https://{POD_ID}-5000.proxy.runpod.net",
+    "url": "https://{POD_ID}-8888.proxy.runpod.net",
     "type": "runpod",
     "pod_id": "a1b2c3d4e5"
 }

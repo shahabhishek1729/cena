@@ -109,11 +109,11 @@ deploy_runpod() {
     echo ""
     echo "=== RunPod deploy complete! ==="
     echo ""
-    echo "Server is starting on port 5000."
+    echo "Server is starting on port 8888."
     echo "First run downloads the model (~4GB) — check logs:"
     echo "  ssh $SSH_ARGS 'tail -f /workspace/diffguard.log'"
     echo ""
-    echo "Access URL: https://<POD_ID>-5000.proxy.runpod.net"
+    echo "Access URL: https://<POD_ID>-8888.proxy.runpod.net"
     echo ""
     echo "  1. Get your pod ID from runpod.io dashboard"
     echo "  2. export RUNPOD_POD_ID=<pod-id>"
@@ -140,7 +140,7 @@ deploy_ssh() {
     echo "  ssh $SSH_ARGS 'cd ~/$REMOTE_DIR/server && python app.py'"
     echo ""
     echo "Then from your laptop:"
-    echo "  python client/glaze.py --image photo.png --mask mask.png --server http://<host>:5000"
+    echo "  python client/glaze.py --image photo.png --mask mask.png --server http://<host>:8888"
 }
 
 # -----------------------------------------------------------------------
