@@ -6,7 +6,7 @@
 #   1. Create a pod on runpod.io with:
 #      - Template: RunPod PyTorch 2.x  (or any CUDA image)
 #      - GPU: Any NVIDIA GPU (A100, A40, RTX 4090, etc.)
-#      - Expose TCP port 5000
+#      - Expose TCP port 8888
 #   2. Get your pod's SSH connection string from the RunPod dashboard
 #
 # Usage:
@@ -15,7 +15,7 @@
 #   ./deploy_runpod.sh "ssh -p 12345 root@ssh.runpod.io"     # Full SSH command
 #
 # After deploy, the server URL will be:
-#   https://<POD_ID>-5000.proxy.runpod.net
+#   https://<POD_ID>-8888.proxy.runpod.net
 #
 set -euo pipefail
 
@@ -79,10 +79,10 @@ ssh $SSH_ARGS "cd $REMOTE_DIR/server && nohup python app.py > /workspace/diffgua
 
 echo "=== Deploy complete! ==="
 echo ""
-echo "The server is starting up at port 5000."
+echo "The server is starting up at port 8888."
 echo ""
 echo "Access via RunPod proxy:"
-echo "  https://<POD_ID>-5000.proxy.runpod.net/health"
+echo "  https://<POD_ID>-8888.proxy.runpod.net/health"
 echo ""
 echo "To check logs:"
 echo "  ssh $SSH_ARGS 'tail -f /workspace/diffguard_server.log'"

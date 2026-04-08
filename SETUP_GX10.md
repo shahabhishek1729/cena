@@ -114,7 +114,7 @@ docker run -dt \
   --ipc=host \
   --ulimit memlock=-1 \
   --ulimit stack=67108864 \
-  -p 5000:5000 \
+  -p 8888:8888 \
   -v ~/diffusionguard_project:/workspace/project \
   nvcr.io/nvidia/pytorch:26.01-py3
 ```
@@ -166,7 +166,7 @@ python app.py
 ```
 
 The first run will download the Stable Diffusion Inpainting model (~4GB) from HuggingFace.
-After that, you'll see: `* Running on http://0.0.0.0:5000`
+After that, you'll see: `* Running on http://0.0.0.0:8888`
 
 ## Phase 4: Firmware Updates (If Needed)
 
@@ -197,7 +197,7 @@ docker start diffguard
 docker exec -it diffguard bash -c "cd /workspace/project/server && python app.py"
 
 # 4. From your laptop, use the client to protect images
-python client/glaze.py --image photo.png --mask mask.png --server http://spark-abcd.local:5000
+python client/glaze.py --image photo.png --mask mask.png --server http://spark-abcd.local:8888
 ```
 
 ## Network Diagram

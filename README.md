@@ -8,7 +8,7 @@ Protect images against malicious AI inpainting using [DiffusionGuard](https://gi
 Your Laptop (macOS)                          GPU Backend (GX10 / RunPod / any)
 ┌──────────────────────┐                     ┌──────────────────────────────┐
 │                      │  POST /protect      │                              │
-│  client/glaze.py     │ ──────────────────► │  server/app.py (Flask :5000) │
+│  client/glaze.py     │ ──────────────────► │  server/app.py (Flask :8888) │
 │  --backend gx10      │                     │  ├── DiffusionGuard (PGD)    │
 │  --backend runpod    │ ◄────────────────── │  └── SD Inpainting pipeline  │
 │  --backend local     │  protected.png      │                              │
@@ -65,7 +65,7 @@ docker exec -it diffguard bash -c 'cd /workspace/project/server && python app.py
 
 #### Option B: RunPod
 
-1. Create a GPU pod on [runpod.io](https://runpod.io) (any NVIDIA GPU, expose port 5000)
+1. Create a GPU pod on [runpod.io](https://runpod.io) (any NVIDIA GPU, expose port 8888)
 2. Deploy:
 ```bash
 ./deploy.sh runpod -p 22177 root@ssh.runpod.io
@@ -106,7 +106,7 @@ python client/glaze.py --image photo.png --mask mask.png --backend runpod
 python client/glaze.py --image photo.png --mask mask.png --backend local
 
 # Or use a direct URL
-python client/glaze.py --image photo.png --mask mask.png --server http://192.168.1.42:5000
+python client/glaze.py --image photo.png --mask mask.png --server http://192.168.1.42:8888
 ```
 
 ### 4. Test that protection works
@@ -130,21 +130,21 @@ Edit `backends.json` to configure your GPU backends:
 {
     "backends": {
         "gx10": {
-            "url": "http://spark-abcd.local:5000",
+            "url": "http://spark-abcd.local:8888",
             "type": "ssh-docker",
             "ssh": "nikhil@spark-abcd.local"
         },
         "runpod": {
-            "url": "https://{POD_ID}-5000.proxy.runpod.net",
+            "url": "https://{POD_ID}-8888.proxy.runpod.net",
             "type": "runpod",
             "pod_id": "your-pod-id-here"
         },
         "lambda": {
-            "url": "http://my-lambda-box.com:5000",
+            "url": "http://my-lambda-box.com:8888",
             "type": "ssh"
         },
         "local": {
-            "url": "http://localhost:5000",
+            "url": "http://localhost:8888",
             "type": "local"
         }
     },
@@ -170,7 +170,7 @@ export DIFFGUARD_SERVER=http://.. # Direct URL override
 ### POST /protect
 
 ```bash
-curl -X POST http://<gpu>:5000/protect \
+curl -X POST http://<gpu>:8888/protect \
   -F "image=@photo.png" \
   -F "mask=@mask.png" \
   --output protected.png
@@ -181,7 +181,7 @@ Query params: `iters` (int, default 200) — PGD optimization iterations.
 ### POST /test-inpaint
 
 ```bash
-curl -X POST "http://<gpu>:5000/test-inpaint?prompt=a+person+in+jail" \
+curl -X POST "http://<gpu>:8888/test-inpaint?prompt=a+person+in+jail" \
   -F "image=@protected.png" \
   -F "mask=@mask.png" \
   --output result.png
