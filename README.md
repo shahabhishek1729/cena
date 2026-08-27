@@ -1,4 +1,6 @@
-# DiffusionGuard Pipeline — TreeHacks '26
+# Cena — TreeHacks '26
+Abhishek Shah, Isaac Chen, Nikhil Vemuri, Ray Zhang (sorted alphabetically)
+---
 
 Protect images against malicious AI inpainting using [DiffusionGuard](https://github.com/choi403/DiffusionGuard) (ICLR 2025), running on any GPU backend — ASUS Ascent GX10, RunPod, or any remote GPU.
 
